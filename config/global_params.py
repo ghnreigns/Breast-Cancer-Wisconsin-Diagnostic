@@ -15,6 +15,10 @@ class global_config:
     spot_checking = Path(DATA_DIR, "results/spot_checking.csv")
     spot_checking_summary = Path(DATA_DIR, "results/spot_checking_summary.csv")
     spot_checking_boxplot = Path(DATA_DIR, "images/spot_checking_boxplot.png")
+    oof_confusion_matrix = Path(DATA_DIR, "images/oof_confusion_matrix.png")
+    final_train_confusion_matrix = Path(DATA_DIR, "images/final_train_confusion_matrix.png")
+    precision_recall_threshold_plot = Path(DATA_DIR, "images/precision_recall_threshold_plot.png")
+    roc_plot = Path(DATA_DIR, "images/roc_plot.png")
 
     # Data Information
     target = ["diagnosis"]
