@@ -13,6 +13,8 @@ class global_config:
     raw_data = Path(DATA_DIR, "raw/data.csv")
     processed_final = Path(DATA_DIR, "processed/processed.csv")
     spot_checking = Path(DATA_DIR, "results/spot_checking.csv")
+    spot_checking_summary = Path(DATA_DIR, "results/spot_checking_summary.csv")
+    spot_checking_boxplot = Path(DATA_DIR, "images/spot_checking_boxplot.png")
 
     # Data Information
     target = ["diagnosis"]

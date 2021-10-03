@@ -152,3 +152,20 @@ def corrfunc(x: np.ndarray, y: np.ndarray, ax=None, **kws) -> None:
     r, _ = pearsonr(x, y)
     ax = ax or plt.gca()
     ax.annotate(f"ρ = {r:.2f}", xy=(0.1, 0.95), xycoords=ax.transAxes)
+
+
+def plot_precision_recall_vs_threshold(
+    precisions: np.ndarray, recalls: np.ndarray, thresholds: np.ndarray
+) -> None:
+    """
+    Modified from:
+    Hands-On Machine learning with Scikit-Learn and TensorFlow; p.89
+    and courtesy of https://towardsdatascience.com/fine-tuning-a-classifier-in-scikit-learn-66e048c21e65
+    """
+    plt.figure(figsize=(8, 8))
+    plt.title("Precision and Recall Scores as a function of the decision threshold")
+    plt.plot(thresholds, precisions[:-1], "b--", label="Precision")
+    plt.plot(thresholds, recalls[:-1], "g-", label="Recall")
+    plt.ylabel("Score")
+    plt.xlabel("Decision Threshold")
+    plt.legend(loc="best")

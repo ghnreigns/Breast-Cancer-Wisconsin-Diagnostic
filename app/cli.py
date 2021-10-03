@@ -32,7 +32,7 @@ from mlxtend.evaluate import paired_ttest_5x2cv
 import seaborn as sns
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 
-from src import clean, train, make_folds, utils
+from src import clean, train, make_folds, utils, eval
 from config import global_params
 
 CONFIG = global_params.global_config
@@ -78,7 +78,9 @@ def prepare_data(df: pd.DataFrame) -> pd.DataFrame:
     return df_copy
 
 
-def spot_checking(df: pd.DataFrame, classifiers: List[Callable]) -> pd.DataFrame:
+def spot_checking(
+    df: pd.DataFrame, classifiers: List[Callable]
+) -> Union[pd.DataFrame, pd.DataFrame]:
     """This method is advocated by Jason Brownlee PhD and this serves as the first stage of my modelling process.
     We will rapidly test (spot check) different classifier algorithms.
 
@@ -121,10 +123,19 @@ def spot_checking(df: pd.DataFrame, classifiers: List[Callable]) -> pd.DataFrame
 
     for v in model_dict.values():
         utils.add_summary_col(v)
+
     results_df = pd.concat({k: pd.DataFrame(v).T for k, v in model_dict.items()}, axis=0)
     results_df.columns = ["fold 1", "fold 2", "fold 3", "fold 4", "fold 5", "mean_cv", "oof_cv"]
     results_df.to_csv(CONFIG.spot_checking, index=True)
-    return results_df
+
+    summary_df = eval.summarize_metrics(
+        model_dict=model_dict,
+        metric_name="roc",
+        output_filepath=CONFIG.spot_checking_summary,
+        output_imagepath=CONFIG.spot_checking_boxplot,
+    )
+
+    return results_df, summary_df
 
 
 def grid_search(df: pd.DataFrame):
@@ -164,6 +175,6 @@ if __name__ == "__main__":
     df = prepare_data(df)
     spot_check_df = spot_checking(df=df, classifiers=train.make_classifiers(CONFIG.seed))
 
-    print(spot_check_df)
-    grid_df = grid_search(df)
-    print(grid_df)
+    # print(spot_check_df)
+    # grid_df = grid_search(df)
+    # print(grid_df)

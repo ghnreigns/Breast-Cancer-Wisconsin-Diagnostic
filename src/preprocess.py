@@ -6,8 +6,8 @@ import pandas as pd
 
 
 class ReduceVIF(base.BaseEstimator, base.TransformerMixin):
-    """The base of the class structure is not implemented by me, however, I heavily modified the class such that it can
-    take in numpy arrays and correctly implemented the fit and transform method.
+    """The base of the class structure is implemented in https://www.kaggle.com/ffisegydd/sklearn-multicollinearity-class;
+    I heavily modified the class such that it can take in numpy arrays and correctly implemented the fit and transform method.
     """
 
     def __init__(self, thresh=10):
