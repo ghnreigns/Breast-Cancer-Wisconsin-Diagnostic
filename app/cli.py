@@ -1,39 +1,10 @@
-import pandas as pd
-import numpy as np
-import csv
-from sklearn import (
-    base,
-    ensemble,
-    linear_model,
-    metrics,
-    model_selection,
-    dummy,
-    base,
-    pipeline,
-    preprocessing,
-    svm,
-    tree,
-    neighbors,
-    decomposition,
-    feature_selection,
-)
-import pandas as pd
-from typing import List, Dict, Union
-import matplotlib.pyplot as plt
-import random
-from typing import Callable
-import numpy as np
-import pandas as pd
-from scipy import stats
-from functools import wraps
-from time import time
-import mlxtend
-from mlxtend.evaluate import paired_ttest_5x2cv
-import seaborn as sns
-from statsmodels.stats.outliers_influence import variance_inflation_factor
+from typing import Callable, Union, List
 
-from src import clean, train, make_folds, utils, eval
+import numpy as np
+import pandas as pd
 from config import global_params
+from sklearn import linear_model, model_selection
+from src import clean, eval, make_folds, train, utils
 
 CONFIG = global_params.global_config
 
@@ -139,9 +110,17 @@ def spot_checking(
 
 
 def grid_search(df: pd.DataFrame):
+    """Use Grid Search to tune the hyperparameters and return the best score as a row in dataframe.
+
+    Args:
+        df (pd.DataFrame): [description]
+
+    Returns:
+        [type]: [description]
+    """
     X = df.copy()
     y = X.pop(CONFIG.target[0])
-    predictor_cols = X.columns.to_list()
+
     # Split train - test
     X_train, X_test, y_train, y_test = model_selection.train_test_split(
         X,
@@ -167,14 +146,13 @@ def grid_search(df: pd.DataFrame):
     )
     _ = grid.fit(X_train, y_train)
     grid_cv_df = pd.DataFrame(grid.cv_results_)
-    return grid_cv_df.loc[grid_cv_df["rank_test_score"] == 1]
+    best_score = grid_cv_df.loc[grid_cv_df["rank_test_score"] == 1].reset_index(drop=True)
+
+    return best_score
 
 
 if __name__ == "__main__":
     df = load_data(filepath=CONFIG.raw_data)
     df = prepare_data(df)
     spot_check_df = spot_checking(df=df, classifiers=train.make_classifiers(CONFIG.seed))
-
-    # print(spot_check_df)
-    # grid_df = grid_search(df)
-    # print(grid_df)
+    grid_df = grid_search(df)
