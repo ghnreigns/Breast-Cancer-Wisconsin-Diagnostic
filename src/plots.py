@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-import plotly.figure_factory as ff
+from scipy.stats import pearsonr
 import seaborn as sns
 from typing import List
 import numpy as np
@@ -42,32 +42,7 @@ def plot_target_distribution(df: pd.DataFrame, target: str, colors: List[str]) -
     plt.show()
 
 
-def plot_distribution(df: pd.DataFrame, predictor: str, size_bin: float) -> None:
-    """[summary]
-
-    Args:
-        df (pd.DataFrame): [description]
-        predictor (str): [description]
-        size_bin (float): [description]
-    """
-    df_m = df.loc[df["diagnosis"] == 1]
-    df_b = df.loc[df["diagnosis"] == 0]
-
-    hist_data = [df_m[predictor], df_b[predictor]]
-
-    group_labels = ["malignant", "benign"]
-    colors = ["#FF0000", "#00FF00"]
-
-    fig = ff.create_distplot(
-        hist_data, group_labels, colors=colors, show_hist=True, bin_size=size_bin, curve_type="kde"
-    )
-
-    fig["layout"].update(title=predictor)
-
-    py.iplot(fig, filename="Density plot")
-
-
-def plot_univariate(df: pd.DataFrame, predictor: str) -> None:
+def plot_univariate(df: pd.DataFrame, predictor: str, colors: List[str]) -> None:
     """Take in continuous predictors and plot univariate distribution. Note in this setting, we have kde=True.
 
     Args:
@@ -87,7 +62,7 @@ def plot_univariate(df: pd.DataFrame, predictor: str) -> None:
             hue="diagnosis",
             ax=axs[i % univariate_params["nrows"]][i // univariate_params["nrows"]],
             legend=False,
-            palette={1: "red", 0: "green"},
+            palette={1: colors[0], 0: colors[3]},
         )
     plt.subplots_adjust(hspace=2)
     fig.suptitle("Breast Cancer Predictors Univariate Distribution", y=1.01, fontsize="x-large")
@@ -112,23 +87,21 @@ def plot_univariate_boxplot(df: pd.DataFrame, predictor: str) -> None:
         sns.boxplot(
             data=df,
             x=col,
-            kde=True,
             hue="diagnosis",
             ax=axs[i % univariate_params["nrows"]][i // univariate_params["nrows"]],
-            legend=False,
-            palette={1: "red", 0: "green"},
         )
     plt.subplots_adjust(hspace=2)
-    fig.suptitle("Breast Cancer Predictors Univariate Distribution", y=1.01, fontsize="x-large")
+    fig.suptitle("Breast Cancer Predictors Boxplot Distribution", y=1.01, fontsize="x-large")
     fig.legend(df["diagnosis"].unique())
     fig.tight_layout()
     plt.show()
 
 
-def plot_heatmap(df: pd.DataFrame, predictors: List[str]) -> pd.DataFrame:
+def plot_heatmap(df: pd.DataFrame, predictors: List[str], cmap: str) -> pd.DataFrame:
     """This function takes in a dataframe and a list of predictors, and output the correlation matrix, as well as a plot of heatmap.
 
-    Note that annot_kws attempts to make the size of the font visible and contained in the heatmap.
+    1. Note that annot_kws attempts to make the size of the font visible and contained in the heatmap.
+    2. Note that the CMAP is reversed and darker color indicates higher correlation as I find this more intuitive.
 
     Args:
         df (pd.DataFrame): [description]
@@ -142,8 +115,7 @@ def plot_heatmap(df: pd.DataFrame, predictors: List[str]) -> pd.DataFrame:
     annot_kws = {"size": 35 / np.sqrt(len(corr))}
 
     fig, _ = plt.subplots(figsize=(16, 12))
-    sns.heatmap(corr, annot=True, annot_kws=annot_kws)
-
+    sns.heatmap(corr, annot=True, cmap=cmap, annot_kws=annot_kws)
     return corr
 
 
@@ -151,7 +123,7 @@ def corrfunc(x: np.ndarray, y: np.ndarray, ax=None, **kws) -> None:
     """Plot the correlation coefficient in the top left hand corner of a plot."""
     r, _ = pearsonr(x, y)
     ax = ax or plt.gca()
-    ax.annotate(f"ρ = {r:.2f}", xy=(0.1, 0.95), xycoords=ax.transAxes)
+    ax.annotate(f"{r:.1f}", xy=(0.7, 0.15), xycoords=ax.transAxes)
 
 
 def plot_precision_recall_vs_threshold(
@@ -168,4 +140,21 @@ def plot_precision_recall_vs_threshold(
     plt.plot(thresholds, recalls[:-1], "g-", label="Recall")
     plt.ylabel("Score")
     plt.xlabel("Decision Threshold")
+    plt.legend(loc="best")
+
+
+def plot_roc_curve(fpr, tpr, label=None):
+    """
+    The ROC curve, modified from
+    Hands-On Machine learning with Scikit-Learn and TensorFlow; p.91
+    and courtesy of https://towardsdatascience.com/fine-tuning-a-classifier-in-scikit-learn-66e048c21e65
+    """
+    plt.figure(figsize=(8, 8))
+    plt.title("ROC Curve")
+    plt.plot(fpr, tpr, linewidth=2, label=label)
+    plt.plot([0, 1], [0, 1], "k--")
+    plt.axis([-0.005, 1, 0, 1.005])
+    plt.xticks(np.arange(0, 1, 0.05), rotation=90)
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate (Recall)")
     plt.legend(loc="best")

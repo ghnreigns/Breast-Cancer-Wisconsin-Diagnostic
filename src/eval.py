@@ -69,8 +69,8 @@ def evaluate_train_test_set(
 
     test_results["brier"] = test_brier
     test_results["roc"] = test_roc
-    test_results["y_test"] = np.asarray(y).flatten()
-    test_results["y_test_pred"] = y_pred.flatten()
-    test_results["y_test_prob"] = y_prob.flatten()
+    test_results["y"] = np.asarray(y).flatten()
+    test_results["y_pred"] = y_pred.flatten()
+    test_results["y_prob"] = y_prob.flatten()
 
     return test_results
