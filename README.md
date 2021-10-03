@@ -8,6 +8,10 @@ by Hongnan Gao
 
 This repository describes in detail a project on Breast Cancer detection. It holds both step by step walkthrough in notebook format, which I have converted into pdf for viewers, and also source codes in `.py` files.
 
+## Disclaimer
+
+The assumption of this report is that it is more inclined towards the technical audience.
+
 ## Directory Structure
 
 ```bash

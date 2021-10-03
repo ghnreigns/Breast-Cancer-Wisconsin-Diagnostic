@@ -4,6 +4,7 @@ from scipy.stats import pearsonr
 import seaborn as sns
 from typing import List
 import numpy as np
+from sklearn import decomposition, manifold, preprocessing
 
 
 def plot_target_distribution(df: pd.DataFrame, target: str, colors: List[str]) -> None:
@@ -124,6 +125,42 @@ def corrfunc(x: np.ndarray, y: np.ndarray, ax=None, **kws) -> None:
     r, _ = pearsonr(x, y)
     ax = ax or plt.gca()
     ax.annotate(f"{r:.1f}", xy=(0.7, 0.15), xycoords=ax.transAxes)
+
+
+def plot_dimensional_reduction(df: pd.DataFrame, predictor_cols: List[str], colors: List[str]):
+    """Plots PCA and TSNE for visualization of higher dimension to lower dimension.
+
+    Args:
+        df (pd.DataFrame): [description]
+        predictor_cols (List[str]): [description]
+        colors (List[str]): [description]
+    """
+    X_standardized = preprocessing.StandardScaler().fit_transform(df[predictor_cols])
+
+    # Binary classification: we can set n components to 2 to better visualize all features in 2 dimensions
+    pca = decomposition.PCA(n_components=2)
+    pca_2d = pca.fit_transform(X_standardized)
+
+    tsne = manifold.TSNE(n_components=2, verbose=1, perplexity=40, n_iter=1500)
+    tsne_2d = tsne.fit_transform(X_standardized)
+
+    # Plot the TSNE and PCA visuals side-by-side
+    plt.figure(figsize=(16, 11))
+    plt.subplot(121)
+    plt.scatter(pca_2d[:, 0], pca_2d[:, 1], c=df["diagnosis"], edgecolor="None", alpha=0.35)
+    plt.colorbar()
+    plt.title("PCA Scatter Plot")
+    plt.subplot(122)
+    plt.scatter(
+        tsne_2d[:, 0],
+        tsne_2d[:, 1],
+        c=df["diagnosis"],
+        edgecolor="None",
+        alpha=0.35,
+    )
+    plt.colorbar()
+    plt.title("TSNE Scatter Plot")
+    plt.show()
 
 
 def plot_precision_recall_vs_threshold(
