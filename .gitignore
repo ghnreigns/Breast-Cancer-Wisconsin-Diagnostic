@@ -1,0 +1,14 @@
+# VSCode
+.vscode/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# IPython
+.ipynb_checkpoints
+
+# Egg Info
+reigHns_breast_cancer_winsconsin.egg-info
+
+# Virtual Env
+venv_bcw
