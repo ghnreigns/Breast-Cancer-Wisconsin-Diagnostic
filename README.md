@@ -10,7 +10,9 @@ This repository describes in detail a project on Breast Cancer detection. It hol
 
 ## Disclaimer
 
-The assumption of this report is that it is more inclined towards the technical audience.
+1. The assumption of this report is that it is more inclined towards the technical audience. 
+2. For a wholesome step by step approach, please do check the 5 pdf files (Stage 0 to Stage 4). They are converted from Jupyter Notebooks for your reference (source `.ipynb` is in `notebooks` folder).
+3. LaTeX equations are written inline instead of the neater displayed version to save space. Some mathematical notations are explained in more details in **Appendix**.
 
 ## Directory Structure
 
@@ -64,3 +66,15 @@ python -m pip install -e . --no-cache-dir
 ```bash
 python3 .\app\cli.py
 ```
+
+## Timeline
+
+Here is my timeline for this project:
+
+- **Day 1:** Clarifying requirements and sourcing for a dataset. Find a suitable narrative and use case for the problem.
+- **Day 2:** Perform Preliminary Inspection of Data and EDA.
+- **Day 3:** Derive insights and actions from EDA, for example, multicollinearity seems to be a problem, and we should handle it in `Pipeline`.
+- **Day 4:** Coded up a basic pipeline to do spot checking on various classifier for baselines.
+- **Day 5:** Set up Hyperparameter Tuning pipeline.
+- **Day 6:** Analyze the results, such as feature importance and metric scores.
+- **Day 7:** Trying to condense all the steps into 2-page report.
