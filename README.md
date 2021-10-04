@@ -8,6 +8,8 @@ by Hongnan Gao
 
 This repository describes in detail a project on Breast Cancer detection. It holds both step by step walkthrough in notebook format, which I have converted into pdf for viewers, and also source codes in `.py` files.
 
+The reports can be found in the `reports` folder.
+
 ## Disclaimer
 
 1. The assumption of this report is that it is more inclined towards the technical audience. 
@@ -26,6 +28,7 @@ data/
 ├── processed           - processed data
 ├── raw                 - raw data
 notebooks/              - contain detailed description of each stage of the ML pipeline
+reports/                - contain all my reports
 src
 ├── clean.py            - preliminary data cleaning 
 ├── eval.py             - evaluation of models
@@ -78,3 +81,9 @@ Here is my timeline for this project:
 - **Day 5:** Set up Hyperparameter Tuning pipeline.
 - **Day 6:** Analyze the results, such as feature importance and metric scores.
 - **Day 7:** Trying to condense all the steps into 2-page report.
+
+---
+
+## Remarks
+
+Thank you for giving me this opportunity to do this take home project. I look forward to hearing your feedbacks and  suggestions for areas of improvements. 
