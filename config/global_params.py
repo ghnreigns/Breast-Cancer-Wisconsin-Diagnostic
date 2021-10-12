@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from pathlib import Path
+import seaborn as sns
 
 
 class global_config:
