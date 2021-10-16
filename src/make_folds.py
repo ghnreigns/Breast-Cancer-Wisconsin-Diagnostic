@@ -3,6 +3,8 @@ from typing import List
 import pandas as pd
 from sklearn import model_selection
 
+# from config.global_params import global_config as CONFIG
+
 
 def make_folds(
     df: pd.DataFrame,
@@ -45,6 +47,6 @@ def make_folds(
             df_folds.loc[val_idx, "fold"] = int(fold + 1)
 
         df_folds["fold"] = df_folds["fold"].astype(int)
-        print(df_folds.groupby(["fold", "diagnosis"]).size())
+        print(df_folds.groupby(["fold", target_col[0]]).size())
 
     return df_folds

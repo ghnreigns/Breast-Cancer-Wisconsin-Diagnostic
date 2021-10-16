@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from config import global_params
 from sklearn import linear_model, model_selection
-from src import clean, eval, make_folds, train, utils
+from src import clean, evaluate, make_folds, train, utils
 
 CONFIG = global_params.global_config
 
@@ -99,7 +99,7 @@ def spot_checking(
     results_df.columns = ["fold 1", "fold 2", "fold 3", "fold 4", "fold 5", "mean_cv", "oof_cv"]
     results_df.to_csv(CONFIG.spot_checking, index=True)
 
-    summary_df = eval.summarize_metrics(
+    summary_df = evaluate.summarize_metrics(
         model_dict=model_dict,
         metric_name="roc",
         output_filepath=CONFIG.spot_checking_summary,
@@ -155,4 +155,5 @@ if __name__ == "__main__":
     df = load_data(filepath=CONFIG.raw_data)
     df = prepare_data(df)
     spot_check_df = spot_checking(df=df, classifiers=train.make_classifiers(CONFIG.seed))
-    grid_df = grid_search(df)
+    print(spot_check_df)
+    # grid_df = grid_search(df)
