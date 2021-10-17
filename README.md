@@ -31,7 +31,7 @@ notebooks/              - contain detailed description of each stage of the ML p
 reports/                - contain all my reports
 src
 ├── clean.py            - preliminary data cleaning 
-├── eval.py             - evaluation of models
+├── evaluate.py         - evaluation of models
 ├── make_folds.py       - make cross-validation folds
 ├── plots.py            - plotting functions
 ├── train.py            - training/optimization pipelines

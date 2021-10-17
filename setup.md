@@ -128,14 +128,19 @@ pip install -e . -f https://download.pytorch.org/whl/torch_stable.html
     so that you have added this local repo to the GitHub. 
 
 8. Finally, we use `git push origin master` to push to master branch.
-    1. One thing worth noting is that if you created the repository with some files in it, then the above steps will lead to error.
-    2. Instead, to overwrite : do `git push -f origin master` . For newbies, it is safe to just init a repo with no files inside in the remote to avoid the error "Updates were rejected because the tip..."
+
 9. Now step 8 may fail sometimes if you did not verify credentials, a fix is instead of step 7 and 8, we replace with 
-    ```
+    ```bash
     git remote add origin your-repo-http
-    git remote set-url origin https://reighns@github.com/reighns/reighns-mnist.git
+    git remote set-url origin your-repo-http
     git push origin master
     ```
+
+---
+
+1. One thing worth noting is that if you created the repository with some files in it, then the above steps will lead to error.
+2. Instead, to overwrite : do `git push -f origin master` . For newbies, it is safe to just init a repo with no files inside in the remote to avoid the error "Updates were rejected because the tip..."
+
 
 ### Pulling
 
@@ -143,17 +148,22 @@ If you are writing code on your main desktop, say system A and committing a lot 
 
 1. If your last commit of system A is at commit 6, and system B is at commit 3, where commit 4-6 were done on A, then you can simply call:
 
-```bash
-git config --global pull.rebase false  # merge (the default strategy)
-git pull 
-```
+    ```bash
+    git config --global pull.rebase false  # merge (the default strategy)
+    git pull 
+    ```
 
 2. However, if you have uncommited changes on system B and did not commit yet, then what you can do is call:
 
-```bash
-git stash # this saves a snapshot of your current work and remove the commit
-git pull
-```
+    ```bash
+    git stash # this saves a snapshot of your current work and remove the commit
+    git pull
+    ```
+
+---
+
+### Useful Git Commands
+
 
 ---
 
