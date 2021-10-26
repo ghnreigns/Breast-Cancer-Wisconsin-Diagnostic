@@ -8,8 +8,13 @@ by Hongnan Gao
 
 - [Introduction](#introduction)
 - [Step-by-Step Guide](#step-by-step-guide)
-  - [Setting up virtual env and requirements](#setting-up-virtual-env-and-requirements)
-  - [Git:](#git)
+  - [Open VSCode](#open-vscode)
+  - [Virtual Environment](#virtual-environment)
+  - [Setup and requirements](#setup-and-requirements)
+  - [Git](#git)
+    - [Normal workflow](#normal-workflow)
+    - [Pulling](#pulling)
+    - [Useful Git Commands](#useful-git-commands)
   - [Command Line](#command-line)
   - [Documentation](#documentation)
     - [Type Hints](#type-hints)
@@ -150,14 +155,14 @@ If you are writing code on your main desktop, say system A and committing a lot 
 
     ```bash
     git config --global pull.rebase false  # merge (the default strategy)
-    git pull 
+    git pull origin master
     ```
 
 2. However, if you have uncommited changes on system B and did not commit yet, then what you can do is call:
 
     ```bash
     git stash # this saves a snapshot of your current work and remove the commit
-    git pull
+    git pull origin master
     ```
 
 ---
